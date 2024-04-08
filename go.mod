@@ -1,4 +1,4 @@
-module github.com/bcmk/siren
+module github.com/JW00X/tbot
 
 require (
 	github.com/aohorodnyk/mimeheader v0.0.5
