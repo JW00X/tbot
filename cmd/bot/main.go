@@ -277,34 +277,6 @@ func newWorker(args []string) *worker {
 		w.checker = &lib.BongaCamsChecker{}
 		w.modelIDPreprocessing = lib.CanonicalModelID
 		w.modelIDRegexp = lib.ModelIDRegexp
-	case "chaturbate":
-		w.checker = &lib.ChaturbateChecker{}
-		w.modelIDPreprocessing = lib.ChaturbateCanonicalModelID
-		w.modelIDRegexp = lib.ModelIDRegexp
-	case "stripchat":
-		w.checker = &lib.StripchatChecker{}
-		w.modelIDPreprocessing = lib.CanonicalModelID
-		w.modelIDRegexp = lib.ModelIDRegexp
-	case "livejasmin":
-		w.checker = &lib.LiveJasminChecker{}
-		w.modelIDPreprocessing = lib.CanonicalModelID
-		w.modelIDRegexp = lib.ModelIDRegexp
-	case "camsoda":
-		w.checker = &lib.CamSodaChecker{}
-		w.modelIDPreprocessing = lib.CanonicalModelID
-		w.modelIDRegexp = lib.ModelIDRegexp
-	case "flirt4free":
-		w.checker = &lib.Flirt4FreeChecker{}
-		w.modelIDPreprocessing = lib.Flirt4FreeCanonicalModelID
-		w.modelIDRegexp = lib.ModelIDRegexp
-	case "streamate":
-		w.checker = &lib.StreamateChecker{}
-		w.modelIDPreprocessing = lib.CanonicalModelID
-		w.modelIDRegexp = lib.ModelIDRegexp
-	case "twitch":
-		w.checker = &lib.TwitchChecker{}
-		w.modelIDPreprocessing = lib.TwitchCanonicalModelID
-		w.modelIDRegexp = lib.TwitchModelIDRegexp
 	default:
 		panic("wrong website")
 	}
