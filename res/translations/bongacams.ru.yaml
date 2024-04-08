@@ -1,0 +1,102 @@
+site:
+  parse: html
+  str: BongaCams
+add_error:
+  parse: html
+  str: |-
+    Не получилось добавить модель {{ .model }}
+    Проверьте идентификатор модели или попробуйте позже
+    Формат команды: /add <code>МОДЕЛЬ</code>
+    {{ template "address_line" }}
+help:
+  parse: html
+  disable_preview: true
+  str: |-
+    {{ template "hello" .website_link }}
+
+    {{ template "commands" }}
+
+    {{ template "address_line" }}
+
+    {{ template "languages" }}
+
+    {{ template "sites" }}
+
+    {{ template "social" }}
+languages:
+  parse: html
+  str: |-
+    <b>Этот бот на других языках</b>
+    English: <a href="https://t.me/BongacamsOnlineBot">BongacamsOnlineBot</a>
+sites:
+  parse: html
+  str: |-
+    <b>Этот бот для других сайтов</b>
+    Chaturbate: <a href="https://t.me/ChaturbateSirenBot">ChaturbateSirenBot</a>
+    Stripchat: <a href="https://t.me/StripchatSirenBot">StripchatSirenBot</a>
+    LiveJasmin: <a href="https://t.me/RuLiveJasminSirenBot">RuLiveJasminSirenBot</a>
+    CamSoda: <a href="https://t.me/RuCamSodaSirenBot">RuCamSodaSirenBot</a>
+    Flirt4Free: <a href="https://t.me/RuFlirt4FreeSirenBot">RuFlirt4FreeSirenBot</a>
+    Streamate: <a href="https://t.me/RuStreamateSirenBot">RuStreamateSirenBot</a>
+    Twitch: <a href="https://t.me/TwitchSirenBot">TwitchSirenBot</a>
+add_example:
+  parse: html
+  str: /add bbbweb
+address_line:
+  parse: html
+  str: Используйте идентификатор модели из адресной строки браузера
+syntax_add:
+  parse: html
+  str: |-
+    Наберите
+
+    /add <code>МОДЕЛЬ</code>
+
+    {{ template "address_line" }}
+
+    Пример
+
+    /add bbbweb
+syntax_remove:
+  parse: html
+  str: |-
+    Наберите
+
+    /remove <code>МОДЕЛЬ</code>
+
+    {{ template "address_line" }}
+unknown_command:
+  parse: html
+  str: |-
+    Такой команде не обучен. Чтобы подписаться на модель, наберите
+
+    /add <code>МОДЕЛЬ</code>
+
+    {{ template "address_line" }}
+
+    Пример
+
+    {{ template "add_example" }}
+zero_subscriptions:
+  parse: html
+  str: |-
+    Вы не подписаны ни на одну модель
+    Чтобы подписаться, наберите
+
+    /add <code>МОДЕЛЬ</code>
+
+    {{ template "address_line" }}
+faq_no_notifications:
+  parse: html
+  str: >
+    <b>Я подписался на модель, но не получаю оповещений</b>
+
+    Для того, чтобы узнать, какие модели сейчас в сети, мы используем тот же список, что и некоторые сайты используют для рекламы BongaCams.
+    Часть моделей не хочет там появляться, поэтому они отключили эту функцию, и мы не можем знать, когда они в сети.
+    Вы можете рассказать модели об этом боте, и, возможно, она изменит своё мнение.
+faq:
+  parse: html
+  str: |-
+    {{ template "faq_no_notifications" }}
+
+    {{ template "faq_pricing" . }}

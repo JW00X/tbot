@@ -1,0 +1,328 @@
+hello:
+  parse: html
+  str: Бот сообщит, когда твоя любимая модель появится в сети <a href="{{ . }}">{{ template "site" }}</a>.
+help:
+  parse: html
+  disable_preview: true
+  str: |-
+    {{ template "hello" .website_link }}
+
+    {{ template "commands" }}
+
+    {{ template "languages" }}
+
+    {{ template "sites" }}
+
+    {{ template "social" }}
+ok:
+  parse: raw
+  str: OK
+add_error:
+  parse: html
+  str: |-
+    Не получилось добавить модель {{ .model }}
+    Проверьте ник модели или попробуйте позже
+    Формат команды: /add <code>МОДЕЛЬ</code>
+checking_model:
+  parse: raw
+  str: Одну секунду. Мы проверяем эту модель
+all_models_removed:
+  parse: raw
+  str: Все ваши подписки удалены
+already_added:
+  parse: raw
+  str: 'Модель {{ .model }} уже в вашем списке'
+denied:
+  parse: raw
+  str: '{{ .model }} заблокировала доступ из США, где находится этот бот'
+feedback:
+  parse: raw
+  str: Спасибо за отклик!
+follower_exists:
+  parse: raw
+  str: Реферальные ссылки работают только для новых пользователей
+raw_commands:
+  parse: raw
+  str: |-
+    referral - Ваша реферальная ссылка
+    add - Добавить модель
+    remove - Удалить модель
+    remove_all - Удалить всех моделей
+    list - Ваши модели
+    pics - Кадры трансляций в этот момент
+    week - График модели в предыдущие 7 дней
+    help - Список команд
+    settings - Настройки
+    feedback - Обратная связь
+commands:
+  parse: html
+  str: |-
+    <b>Команды</b>
+
+    <b>add</b> <code>МОДЕЛЬ</code> — Добавить модель
+    <b>remove</b> <code>МОДЕЛЬ</code> — Удалить модель
+    <b>remove_all</b> — Удалить всех моделей
+    <b>list</b> — Ваши модели
+    <b>pics</b> — Кадры трансляций в этот момент
+    <b>week</b> <code>МОДЕЛЬ</code> — График модели в предыдущие 7 дней
+    <b>help</b> — Список команд
+    <b>settings</b> — Настройки
+    <b>feedback</b> <code>ВАШЕ_СООБЩЕНИЕ</code> — Обратная связь
+invalid_command:
+  parse: raw
+  str: Ошибка в команде
+invalid_referral_link:
+  parse: raw
+  str: Ваша реферальная ссылка неверна
+invalid_symbols:
+  parse: raw
+  disable_preview: true
+  str: 'Идентификатор модели {{ .model }} содержит неподдерживаемые символы'
+model_added:
+  parse: raw
+  str: |-
+    Модель {{ .model }} добавлена
+    Бот сообщит, когда она входит в сеть или выходит
+model_not_in_list:
+  parse: raw
+  str: 'Модель {{ .model }} не в вашем списке'
+model_removed:
+  parse: raw
+  str: 'Модель {{ .model }} удалена'
+no_online_models:
+  parse: raw
+  str: Не найдено моделей в сети, на которые вы подписаны
+not_enough_subscriptions:
+  parse: raw
+  str: У вас недостаточно подписок
+online:
+  parse: html
+  disable_preview: true
+  str: |-
+    {{- template "affiliate_link" .model -}}
+    {{- print " " -}}
+    <i>в сети {{- if .time_diff }} {{ template "duration" .time_diff -}} {{- end -}}</i>
+offline:
+  parse: html
+  disable_preview: true
+  str: |-
+    {{ template "affiliate_link" .model }}
+    {{- print " " -}}
+    <i>не в сети {{- if .time_diff -}}, была {{ template "duration" .time_diff }} назад {{- end -}}</i>
+zero_subscriptions:
+  parse: html
+  str: |-
+    Вы не подписаны ни на одну модель
+    Чтобы подписаться, наберите
+
+    /add <code>МОДЕЛЬ</code>
+list:
+  parse: html
+  disable_preview: true
+  str: |-
+    {{- $printed := false -}}
+    {{- if .online -}}
+      {{- $printed = true -}}
+      <code>В СЕТИ</code>
+      {{- print "\n" -}}
+      {{- range .online -}}
+        {{- template "affiliate_link" .Model -}}
+        {{- if .TimeDiff }}  <i>{{ template "duration" .TimeDiff }}</i> {{- end -}}
+        {{- print "\n" -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- if .offline -}}
+      {{- if $printed -}}
+        {{- print "\n" -}}
+      {{- end -}}
+      {{- $printed = true -}}
+      <code>НЕ В СЕТИ</code>
+      {{- print "\n" -}}
+      {{- range .offline -}}
+        {{- template "affiliate_link" .Model -}}
+        {{- if .TimeDiff }}  <i>была {{ template "duration" .TimeDiff }} назад</i> {{- end -}}
+        {{- print "\n" -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- if .denied -}}
+      {{- if $printed -}}
+        {{- print "\n" -}}
+      {{- end -}}
+      <code>ЗАБЛОКИРОВАНЫ ИЗ СТРАНЫ БОТА</code>
+      {{- print "\n" -}}
+      {{- range .denied -}}
+        {{- template "affiliate_link" .Model -}}
+        {{- if .End }}  <i>была {{ template "duration" .End }} назад</i> {{- end -}}
+        {{- print "\n" -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- if and (not .online) (not .offline) (not .denied) -}}
+      {{- template "zero_subscriptions" -}}
+    {{- end -}}
+own_referral_link_hit:
+  parse: raw
+  str: Вы только что кликнули по собственной реферальной ссылке
+profile_removed:
+  parse: raw
+  str: 'Модель {{ .model }} вероятно удалила свой профиль'
+referral_applied:
+  parse: raw
+  str: Поздравляем! Вы только что получили дополнительные подписки по реферальной ссылке!
+referral_link:
+  disable_preview: true
+  parse: raw
+  str: |-
+    {{ template "subscription_usage" . }}
+
+    Зарабатывайте дополнительные подписки, делясь реферальной ссылкой!
+    {{ .link }}
+
+    Вы получите по {{ .referral_bonus }} дополнительные модели за каждого зарегистрировавшегося пользователя
+    Новый пользователь получит {{ .follower_bonus }} дополнительные модели
+remove_all:
+  parse: raw
+  str: |-
+    Если вы действительно хотите удалить всех моделей, наберите
+
+    /sure_remove_all
+social:
+  disable_preview: true
+  parse: raw
+  str: |-
+    <b>Соцсети</b>
+    Twitter: https://twitter.com/siren_tlg
+    Новостной канал: https://t.me/siren_telegram_bot
+    Reddit: https://www.reddit.com/user/siren_tlg
+    GitHub: https://github.com/bcmk/siren
+subscription_usage:
+  parse: raw
+  str: 'Использовано подписок: {{ .subscriptions_used }}/{{ .total_subscriptions }}'
+subscription_usage_ad:
+  parse: raw
+  str: |-
+    Использовано подписок: {{ .subscriptions_used }}/{{ .total_subscriptions }}
+    Хотите больше подписок? Наберите
+
+    /want_more
+settings:
+  parse: html
+  str: |-
+    {{ template "subscription_usage" . }}
+    Не хватает? Наберите /want_more
+
+    Кадры трансляций в оповещениях: <b>{{ template "yes_no" .show_images }}</b>
+    {{- print "\n" -}}
+    {{- if .show_images  -}}
+      Отключить: /disable_images
+    {{- else -}}
+      Включить: /enable_images
+    {{- end -}}
+
+    {{- if .offline_notifications_supported -}}
+      {{- print "\n" -}}
+      {{- print "\n" -}}
+      Оповещения о выходе из сети: <b>{{ template "yes_no" .offline_notifications }}</b>
+      {{- print "\n" -}}
+      {{- if .offline_notifications  -}}
+        Отключить: /disable_offline_notifications
+      {{- else -}}
+        Включить: /enable_offline_notifications
+      {{- end -}}
+    {{- end -}}
+yes_no:
+  parse: raw
+  str: '{{- if . -}} да {{- else -}} нет {{- end -}}'
+syntax_feedback:
+  parse: html
+  str: |-
+    Наберите
+
+    /feedback <code>ВАШЕ_СООБЩЕНИЕ</code>
+syntax_add:
+  parse: html
+  str: |-
+    Наберите
+
+    /add <code>МОДЕЛЬ</code>
+
+    Пример
+
+    {{ template "add_example" }}
+syntax_remove:
+  parse: html
+  str: |-
+    Наберите
+
+    /remove <code>МОДЕЛЬ</code>
+unknown_command:
+  parse: html
+  str: |-
+    Такой команде не обучен. Чтобы подписаться на модель, наберите
+
+    /add <code>МОДЕЛЬ</code>
+
+    Пример
+
+    {{ template "add_example" }}
+version:
+  parse: raw
+  str: 'Версия: {{ .version }}'
+duration:
+  str: |-
+    {{- if and .Days (not .Hours) -}}
+      {{ .Days }}д
+    {{- else if .Days -}}
+      {{ .Days }}д {{ .Hours }}ч
+    {{- else if and .Hours (not .Minutes) -}}
+      {{ .Hours }}ч
+    {{- else if .Hours -}}
+      {{ .Hours }}ч {{ .Minutes }}м
+    {{- else -}}
+      {{ .Minutes }}м
+    {{- end -}}
+week:
+  parse: html
+  disable_preview: true
+  str: |-
+    Неделя {{ template "affiliate_link" .model }} (UTC)
+    {{- print "\n\n" -}}
+    <code>
+    {{- printf "    00     06     12     18\n" -}}
+    {{- $i := 0 -}}
+    {{- $j := .weekday -}}
+    {{- range .hours -}}
+      {{- if eq (mod $i 24) 0 -}}
+        {{- if ne $i 0 -}}{{- print "\n" -}}{{- end -}}
+        {{- template "weekday" $j -}}:
+        {{- $j = mod (add $j 1) 7 -}}
+      {{- end -}}
+      {{- if eq (mod $i 6) 0 -}}
+        {{- printf " " -}}
+      {{- end -}}
+      {{- if . -}}#{{- else -}}-{{- end -}}
+      {{- $i = add $i 1 -}}
+    {{- end -}}
+    </code>
+weekday:
+  str: |-
+    {{- if eq . 0 -}}Вс{{- end -}}
+    {{- if eq . 1 -}}Пн{{- end -}}
+    {{- if eq . 2 -}}Вт{{- end -}}
+    {{- if eq . 3 -}}Ср{{- end -}}
+    {{- if eq . 4 -}}Чт{{- end -}}
+    {{- if eq . 5 -}}Пт{{- end -}}
+    {{- if eq . 6 -}}Сб{{- end -}}
+faq_pricing:
+  parse: html
+  str: >
+    <b>Цены</b>
+
+    Базовый пакет — бесплатный.
+    Если вы хотите подписаться на более чем {{ .max_models }} моделей, вы можете зарабатывать дополнительные подписки, делясь реферальными ссылками на этот сервис.
+too_many_subscriptions_for_pics:
+  str: Эта команда поддерживает до {{ .max_subs }} подписок в групповом чате
+we_are_up:
+  str: Мы снова работаем
