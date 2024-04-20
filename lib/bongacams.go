@@ -6,7 +6,9 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"strings"
+	"log"
+	"net/html"
+	"strings"	
 )
 
 // BongaCamsChecker implements a checker for BongaCams
@@ -41,22 +43,55 @@ func (c *BongaCamsChecker) checkEndpoint(endpoint string) (onlineModels map[stri
 	onlineModels = map[string]StatusKind{}
 	images = map[string]string{}
 
+	log.Printf("[ENDPOINT] %s", endpoint)
+
 	resp, buf, err := onlineQuery(endpoint, client, c.Headers)
+	//log.Printf("[RESP] %s", resp)
+	//https://bongacams.com/get-member-chat-data?username=-KoshkaAnna-&withMiniProfile=1&liveTab=female
 	if err != nil {
 		return nil, nil, fmt.Errorf("cannot send a query, %v", err)
 	}
 	if resp.StatusCode != 200 {
 		return nil, nil, fmt.Errorf("query status, %d", resp.StatusCode)
 	}
-	decoder := json.NewDecoder(ioutil.NopCloser(bytes.NewReader(buf.Bytes())))
+
+	doc, err := html.Parse(resp.Body)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+
+	var processAll func(*html.Node)
+    processAll = func(n *html.Node) {
+        if n.Type == html.ElementNode && n.Data == "script" {
+            for _, a := range n.Attr {
+				if a.Key == "data-type" && strings.Contains(a.Val, "initialState") {
+					for c := n.FirstChild; c != nil; c = c.NextSibling {
+						if c.Type == html.TextNode {
+							Ldbg("JSON: %s", c.Data)
+						}
+					}
+				}
+			}
+ 
+        }
+
+		for c := n.FirstChild; c != nil; c = c.NextSibling {
+            processAll(c)
+        }
+    }
+
+	processAll(doc)
+
+	//decoder := json.NewDecoder(ioutil.NopCloser(bytes.NewReader(buf.Bytes())))
 	var parsed []bongacamsModel
-	err = decoder.Decode(&parsed)
-	if err != nil {
-		if c.Dbg {
-			Ldbg("response: %s", buf.String())
-		}
-		return nil, nil, fmt.Errorf("cannot parse response, %v", err)
-	}
+	// err = decoder.Decode(&parsed)
+	// if err != nil {
+	// 	if c.Dbg {
+	// 		Ldbg("response: %s", buf.String())
+	// 	}
+	// 	return nil, nil, fmt.Errorf("cannot parse response, %v", err)
+	// }
 
 	if len(parsed) == 0 {
 		return nil, nil, errors.New("zero online models reported")
