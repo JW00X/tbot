@@ -16,12 +16,6 @@ help:
 
     {{ template "commands" }}
 
-    {{ template "address_line" }}
-
-    {{ template "languages" }}
-
-    {{ template "sites" }}
-
     {{ template "social" }}
 languages:
   parse: html

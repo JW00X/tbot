@@ -1,6 +1,6 @@
 hello:
   parse: html
-  str: Бот сообщит, когда твоя любимая модель появится в сети <a href="{{ . }}">{{ template "site" }}</a>.
+  str: Бот сообщит, когда Taanni появится в сети <a href="{{ . }}">{{ template "site" }}</a>.
 help:
   parse: html
   disable_preview: true
@@ -44,14 +44,8 @@ follower_exists:
 raw_commands:
   parse: raw
   str: |-
-    referral - Ваша реферальная ссылка
-    add - Добавить модель
-    remove - Удалить модель
-    remove_all - Удалить всех моделей
-    list - Ваши модели
     pics - Кадры трансляций в этот момент
-    week - График модели в предыдущие 7 дней
-    help - Список команд
+    week - График за предыдущие 7 дней
     settings - Настройки
     feedback - Обратная связь
 commands:
@@ -59,13 +53,8 @@ commands:
   str: |-
     <b>Команды</b>
 
-    <b>add</b> <code>МОДЕЛЬ</code> — Добавить модель
-    <b>remove</b> <code>МОДЕЛЬ</code> — Удалить модель
-    <b>remove_all</b> — Удалить всех моделей
-    <b>list</b> — Ваши модели
     <b>pics</b> — Кадры трансляций в этот момент
-    <b>week</b> <code>МОДЕЛЬ</code> — График модели в предыдущие 7 дней
-    <b>help</b> — Список команд
+    <b>week</b> — График в предыдущие 7 дней
     <b>settings</b> — Настройки
     <b>feedback</b> <code>ВАШЕ_СООБЩЕНИЕ</code> — Обратная связь
 invalid_command:
@@ -210,9 +199,6 @@ subscription_usage_ad:
 settings:
   parse: html
   str: |-
-    {{ template "subscription_usage" . }}
-    Не хватает? Наберите /want_more
-
     Кадры трансляций в оповещениях: <b>{{ template "yes_no" .show_images }}</b>
     {{- print "\n" -}}
     {{- if .show_images  -}}

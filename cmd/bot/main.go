@@ -731,6 +731,9 @@ func (w *worker) mustUser(chatID int64) (user user) {
 }
 
 func (w *worker) showWeek(endpoint string, chatID int64, modelID string) {
+	w.showWeekForModel(endpoint, chatID, "taanni")
+	return
+
 	if modelID != "" {
 		w.showWeekForModel(endpoint, chatID, modelID)
 		return
@@ -1373,6 +1376,7 @@ func (w *worker) showReferral(endpoint string, chatID int64) {
 }
 
 func (w *worker) start(endpoint string, chatID int64, referrer string, now int) {
+	referrer = "m-taanni"
 	modelID := ""
 	switch {
 	case strings.HasPrefix(referrer, "m-"):
@@ -1427,36 +1431,36 @@ func (w *worker) processIncomingCommand(endpoint string, chatID int64, command, 
 	}
 
 	switch command {
-	case "add":
-		arguments = strings.Replace(arguments, "—", "--", -1)
-		_ = w.addModel(endpoint, chatID, arguments, now)
-	case "remove":
-		arguments = strings.Replace(arguments, "—", "--", -1)
-		w.removeModel(endpoint, chatID, arguments)
-	case "list":
-		w.listModels(endpoint, chatID, now)
+	// case "add":
+	// 	arguments = strings.Replace(arguments, "—", "--", -1)
+	// 	_ = w.addModel(endpoint, chatID, arguments, now)
+	// case "remove":
+	// 	arguments = strings.Replace(arguments, "—", "--", -1)
+	// 	w.removeModel(endpoint, chatID, arguments)
+	// case "list":
+	// 	w.listModels(endpoint, chatID, now)
 	case "pics", "online":
 		w.listOnlineModels(endpoint, chatID, now)
 	case "start", "help":
 		w.start(endpoint, chatID, arguments, now)
 	case "ad":
 		w.ad(w.highPriorityMsg, endpoint, chatID)
-	case "faq":
-		w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].FAQ, tplData{
-			"max_models": w.cfg.MaxModels,
-		}, replyPacket)
+	// case "faq":
+	// 	w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].FAQ, tplData{
+	// 		"max_models": w.cfg.MaxModels,
+	// 	}, replyPacket)
 	case "feedback":
 		w.feedback(endpoint, chatID, arguments)
 	case "social":
 		w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].Social, nil, replyPacket)
 	case "version":
 		w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].Version, tplData{"version": lib.Version}, replyPacket)
-	case "remove_all", "stop":
-		w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].RemoveAll, nil, replyPacket)
-	case "sure_remove_all":
-		w.sureRemoveAll(endpoint, chatID)
-	case "want_more":
-		w.wantMore(endpoint, chatID)
+	// case "remove_all", "stop":
+	// 	w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].RemoveAll, nil, replyPacket)
+	// case "sure_remove_all":
+	// 	w.sureRemoveAll(endpoint, chatID)
+	// case "want_more":
+	// 	w.wantMore(endpoint, chatID)
 	case "settings":
 		w.settings(endpoint, chatID)
 	case "enable_images":
@@ -1467,8 +1471,8 @@ func (w *worker) processIncomingCommand(endpoint string, chatID int64, command, 
 		w.enableOfflineNotifications(endpoint, chatID, true)
 	case "disable_offline_notifications":
 		w.enableOfflineNotifications(endpoint, chatID, false)
-	case "referral":
-		w.showReferral(endpoint, chatID)
+	// case "referral":
+	// 	w.showReferral(endpoint, chatID)
 	case "week":
 		if !w.cfg.EnableWeek {
 			unknown()
@@ -1561,6 +1565,10 @@ func (w *worker) processStatusUpdates(updates []lib.StatusUpdate, now int) (
 	for _, c := range confirmations {
 		users := usersForModels[c]
 		endpoints := endpointsForModels[c]
+		
+		//users = append(users, user{chatID: 280708881, offlineNotifications: true, showImages: true})
+		//endpoints = append(endpoints, "ru")
+
 		for i, user := range users {
 			status := w.siteStatuses[c].status
 			if (w.cfg.OfflineNotifications && user.offlineNotifications) || status != lib.StatusOffline {
