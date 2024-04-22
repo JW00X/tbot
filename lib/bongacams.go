@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"net/html"
+	"golang.org/x/net/html"
 	"strings"	
 )
 
