@@ -7,15 +7,20 @@ type StatusKind int
 
 // Model statuses
 const (
-	StatusUnknown  StatusKind = 0
-	StatusOffline  StatusKind = 1
-	StatusOnline   StatusKind = 2
-	StatusNotFound StatusKind = 4
-	StatusDenied   StatusKind = 8
+	StatusUnknown  			StatusKind = 0
+	StatusOffline  			StatusKind = 1
+	StatusOnline   			StatusKind = 2
+	StatusNotFound 			StatusKind = 4
+	StatusDenied   			StatusKind = 8
+
+	StatusPrivatChat 		StatusKind = 16
+	StatusFullPrivatChat   	StatusKind = 32
+	StatusGroupPrivatChat 	StatusKind = 64
+	StatusVipShow			StatusKind = 128
 )
 
 func (s StatusKind) String() string {
-	if s == StatusUnknown || s == StatusOffline|StatusOnline|StatusNotFound|StatusDenied {
+	if s == StatusUnknown || s == StatusOffline|StatusOnline|StatusNotFound|StatusDenied|StatusPrivatChat|StatusFullPrivatChat|StatusGroupPrivatChat|StatusVipShow {
 		return "unknown"
 	}
 	var words []string
@@ -30,6 +35,18 @@ func (s StatusKind) String() string {
 	}
 	if s&StatusDenied != 0 {
 		words = append(words, "denied")
+	}
+	if s&StatusPrivatChat != 0 {
+		words = append(words, "private chat")
+	}
+	if s&StatusFullPrivatChat != 0 {
+		words = append(words, "full private chat")
+	}
+	if s&StatusGroupPrivatChat != 0 {
+		words = append(words, "group private chat")
+	}
+	if s&StatusVipShow != 0 {
+		words = append(words, "vip show")
 	}
 	return strings.Join(words, "|")
 }

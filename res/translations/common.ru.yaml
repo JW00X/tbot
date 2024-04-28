@@ -1,6 +1,6 @@
 hello:
   parse: html
-  str: Бот сообщит, когда Taanni появится в сети <a href="{{ . }}">{{ template "site" }}</a>.
+  str: Привет! Этот небольшой помошник поможет тебе не пропустить мои стримы на <a href="{{ . }}">{{ template "site" }}</a>.
 help:
   parse: html
   disable_preview: true
@@ -9,10 +9,6 @@ help:
 
     {{ template "commands" }}
 
-    {{ template "languages" }}
-
-    {{ template "sites" }}
-
     {{ template "social" }}
 ok:
   parse: raw
@@ -20,40 +16,38 @@ ok:
 add_error:
   parse: html
   str: |-
-    Не получилось добавить модель {{ .model }}
-    Проверьте ник модели или попробуйте позже
-    Формат команды: /add <code>МОДЕЛЬ</code>
+    Отключено
 checking_model:
   parse: raw
   str: Одну секунду. Мы проверяем эту модель
 all_models_removed:
   parse: raw
-  str: Все ваши подписки удалены
+  str: Отключено
 already_added:
   parse: raw
-  str: 'Модель {{ .model }} уже в вашем списке'
+  str: Отключено
 denied:
   parse: raw
-  str: '{{ .model }} заблокировала доступ из США, где находится этот бот'
+  str: '{{ .model }} заблокировала доступ, где находится этот бот'
 feedback:
   parse: raw
   str: Спасибо за отклик!
 follower_exists:
   parse: raw
-  str: Реферальные ссылки работают только для новых пользователей
+  str: Отключено
 raw_commands:
   parse: raw
   str: |-
-    pics - Кадры трансляций в этот момент
+    pics - Статус в этот момент
     week - График за предыдущие 7 дней
     settings - Настройки
     feedback - Обратная связь
 commands:
   parse: html
   str: |-
-    <b>Команды</b>
+    <b>Как пользоваться?</b>
 
-    <b>pics</b> — Кадры трансляций в этот момент
+    <b>pics</b> — Статус в этот момент
     <b>week</b> — График в предыдущие 7 дней
     <b>settings</b> — Настройки
     <b>feedback</b> <code>ВАШЕ_СООБЩЕНИЕ</code> — Обратная связь
@@ -62,28 +56,27 @@ invalid_command:
   str: Ошибка в команде
 invalid_referral_link:
   parse: raw
-  str: Ваша реферальная ссылка неверна
+  str: Отключено
 invalid_symbols:
   parse: raw
   disable_preview: true
-  str: 'Идентификатор модели {{ .model }} содержит неподдерживаемые символы'
+  str: 'Отключено'
 model_added:
   parse: raw
   str: |-
-    Модель {{ .model }} добавлена
-    Бот сообщит, когда она входит в сеть или выходит
+    Отключено
 model_not_in_list:
   parse: raw
-  str: 'Модель {{ .model }} не в вашем списке'
+  str: Отключено
 model_removed:
   parse: raw
-  str: 'Модель {{ .model }} удалена'
+  str: Отключено
 no_online_models:
   parse: raw
-  str: Не найдено моделей в сети, на которые вы подписаны
+  str: Taanni не в сети!
 not_enough_subscriptions:
   parse: raw
-  str: У вас недостаточно подписок
+  str: Отключено
 online:
   parse: html
   disable_preview: true
@@ -101,10 +94,7 @@ offline:
 zero_subscriptions:
   parse: html
   str: |-
-    Вы не подписаны ни на одну модель
-    Чтобы подписаться, наберите
-
-    /add <code>МОДЕЛЬ</code>
+    Вы не подписаны.
 list:
   parse: html
   disable_preview: true
@@ -156,46 +146,32 @@ own_referral_link_hit:
   str: Вы только что кликнули по собственной реферальной ссылке
 profile_removed:
   parse: raw
-  str: 'Модель {{ .model }} вероятно удалила свой профиль'
+  str: '{{ .model }} вероятно удалила свой профиль'
 referral_applied:
   parse: raw
-  str: Поздравляем! Вы только что получили дополнительные подписки по реферальной ссылке!
+  str: Отключено
 referral_link:
   disable_preview: true
   parse: raw
   str: |-
-    {{ template "subscription_usage" . }}
-
-    Зарабатывайте дополнительные подписки, делясь реферальной ссылкой!
-    {{ .link }}
-
-    Вы получите по {{ .referral_bonus }} дополнительные модели за каждого зарегистрировавшегося пользователя
-    Новый пользователь получит {{ .follower_bonus }} дополнительные модели
+    Отключено
 remove_all:
   parse: raw
   str: |-
-    Если вы действительно хотите удалить всех моделей, наберите
-
-    /sure_remove_all
+    Отключено
 social:
   disable_preview: true
   parse: raw
   str: |-
-    <b>Соцсети</b>
-    Twitter: https://twitter.com/siren_tlg
-    Новостной канал: https://t.me/siren_telegram_bot
-    Reddit: https://www.reddit.com/user/siren_tlg
-    GitHub: https://github.com/bcmk/siren
+    <b>Соцсети:</b>
+    https://allmylinks.com/taanni
 subscription_usage:
   parse: raw
   str: 'Использовано подписок: {{ .subscriptions_used }}/{{ .total_subscriptions }}'
 subscription_usage_ad:
   parse: raw
   str: |-
-    Использовано подписок: {{ .subscriptions_used }}/{{ .total_subscriptions }}
-    Хотите больше подписок? Наберите
-
-    /want_more
+    Отключено
 settings:
   parse: html
   str: |-
@@ -230,29 +206,15 @@ syntax_feedback:
 syntax_add:
   parse: html
   str: |-
-    Наберите
-
-    /add <code>МОДЕЛЬ</code>
-
-    Пример
-
-    {{ template "add_example" }}
+    Отключено
 syntax_remove:
   parse: html
   str: |-
-    Наберите
-
-    /remove <code>МОДЕЛЬ</code>
+    Отключено
 unknown_command:
   parse: html
   str: |-
-    Такой команде не обучен. Чтобы подписаться на модель, наберите
-
-    /add <code>МОДЕЛЬ</code>
-
-    Пример
-
-    {{ template "add_example" }}
+    Такой команде не обучен.
 version:
   parse: raw
   str: 'Версия: {{ .version }}'
@@ -304,10 +266,7 @@ weekday:
 faq_pricing:
   parse: html
   str: >
-    <b>Цены</b>
-
-    Базовый пакет — бесплатный.
-    Если вы хотите подписаться на более чем {{ .max_models }} моделей, вы можете зарабатывать дополнительные подписки, делясь реферальными ссылками на этот сервис.
+    Этот бот — бесплатный!
 too_many_subscriptions_for_pics:
   str: Эта команда поддерживает до {{ .max_subs }} подписок в групповом чате
 we_are_up:

@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  bot:
+    container_name: tbot-go
+    environment:
+      CGO_CFLAGS: -D_LARGEFILE64_SOURCE
+    build:
+      args:
+        GO_VERSION: 1.22.2
+        ALPINE_VERSION: 3.17.2
+      context: ./
+      dockerfile: docker/bot/Dockerfile
+    #image: jw544612/tbot:latest
+    ports:
+      - 65080:65080
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./res:/usr/local/res:rw
+
+  nginx:
+    container_name: tbot-nginx
+    build:
+      args:
+        NGINX_VERSION: 1.18.0
+      context: ./
+      dockerfile: docker/nginx/Dockerfile
+    depends_on:
+      - bot
+    ports:
+      - 0.0.0.0:80:80
+      - 0.0.0.0:443:443
+    restart: unless-stopped
+    tty: true

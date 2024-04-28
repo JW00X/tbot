@@ -317,9 +317,11 @@ func (w *worker) setWebhook() {
 		}
 		if p.CertificatePath == "" {
 			var _, err = w.bots[n].SetWebhook(tg.NewWebhook(path.Join(p.WebhookDomain, p.ListenPath)))
+			//var _, err = w.bots[n].SetWebhook(tg.NewWebhook(strings.Join([]string{p.WebhookDomain, p.ListenPath}, "")))
 			checkErr(err)
 		} else {
 			var _, err = w.bots[n].SetWebhook(tg.NewWebhookWithCert(path.Join(p.WebhookDomain, p.ListenPath), p.CertificatePath))
+			//var _, err = w.bots[n].SetWebhook(tg.NewWebhookWithCert(strings.Join([]string{p.WebhookDomain, p.ListenPath}, ""), p.CertificatePath))
 			checkErr(err)
 		}
 		info, err := w.bots[n].GetWebhookInfo()
@@ -764,23 +766,23 @@ func (w *worker) showWeekForModel(endpoint string, chatID int64, modelID string)
 
 func (w *worker) addModel(endpoint string, chatID int64, modelID string, now int) bool {
 	if modelID == "" {
-		w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].SyntaxAdd, nil, replyPacket)
+		//w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].SyntaxAdd, nil, replyPacket)
 		return false
 	}
 	modelID = w.modelIDPreprocessing(modelID)
 	if !w.modelIDRegexp.MatchString(modelID) {
-		w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].InvalidSymbols, tplData{"model": modelID}, replyPacket)
+		//w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].InvalidSymbols, tplData{"model": modelID}, replyPacket)
 		return false
 	}
 
 	if w.subscriptionExists(endpoint, chatID, modelID) {
-		w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].AlreadyAdded, tplData{"model": modelID}, replyPacket)
+		//w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].AlreadyAdded, tplData{"model": modelID}, replyPacket)
 		return false
 	}
 	subscriptionsNumber := w.subscriptionsNumber(endpoint, chatID)
 	user := w.mustUser(chatID)
 	if subscriptionsNumber >= user.maxModels {
-		w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].NotEnoughSubscriptions, nil, replyPacket)
+		//w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].NotEnoughSubscriptions, nil, replyPacket)
 		w.subscriptionUsage(endpoint, chatID, true)
 		return false
 	}
@@ -793,7 +795,7 @@ func (w *worker) addModel(endpoint string, chatID int64, modelID string, now int
 		confirmedStatus = lib.StatusOffline
 	} else {
 		w.mustExec("insert into signals (chat_id, model_id, endpoint, confirmed) values (?,?,?,?)", chatID, modelID, endpoint, false)
-		w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].CheckingModel, nil, replyPacket)
+		//w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].CheckingModel, nil, replyPacket)
 		return false
 	}
 	w.mustExec("insert into signals (chat_id, model_id, endpoint, confirmed) values (?,?,?,?)", chatID, modelID, endpoint, true)
