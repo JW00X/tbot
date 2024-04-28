@@ -550,7 +550,7 @@ func (w *worker) sendAdsTr(
 		ldbg("sendText")
 	} else {
 		w.sendImage(queue, endpoint, chatID, notify, translation.Parse, text, translation.ImageBytes, adPacket)
-		ldbg("sendImage: %v, %v", translation.Image, translation.ImageBytes)
+		ldbg("sendImage: %v", translation.Image)
 	}
 }
 
