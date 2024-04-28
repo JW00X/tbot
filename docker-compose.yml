@@ -13,7 +13,7 @@ services:
       dockerfile: docker/bot/Dockerfile
     #image: jw544612/tbot:latest
     ports:
-      - 65080:65080
+      - 127.0.0.1:65080:65080
     restart: unless-stopped
     tty: true
     volumes:

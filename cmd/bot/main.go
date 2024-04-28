@@ -544,10 +544,13 @@ func (w *worker) sendAdsTr(
 ) {
 	tpl := w.tplAds[endpoint]
 	text := templateToString(tpl, translation.Key, data)
+	ldbg("TPLtoString: %v", text)
 	if translation.Image == "" {
 		w.sendText(queue, endpoint, chatID, notify, translation.DisablePreview, translation.Parse, text, adPacket)
+		ldbg("sendText")
 	} else {
 		w.sendImage(queue, endpoint, chatID, notify, translation.Parse, text, translation.ImageBytes, adPacket)
+		ldbg("sendImage: %v, %v", translation.Image, translation.ImageBytes)
 	}
 }
 
@@ -1388,7 +1391,7 @@ func (w *worker) start(endpoint string, chatID int64, referrer string, now int) 
 	case referrer != "":
 		referralID := w.referralID(chatID)
 		if referralID != nil && *referralID == referrer {
-			w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].OwnReferralLinkHit, nil, replyPacket)
+			//w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].OwnReferralLinkHit, nil, replyPacket)
 			return
 		}
 	}
@@ -1399,11 +1402,11 @@ func (w *worker) start(endpoint string, chatID int64, referrer string, now int) 
 		applied := w.refer(chatID, referrer)
 		switch applied {
 		case referralApplied:
-			w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].ReferralApplied, nil, replyPacket)
+			//w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].ReferralApplied, nil, replyPacket)
 		case invalidReferral:
-			w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].InvalidReferralLink, nil, replyPacket)
+			//w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].InvalidReferralLink, nil, replyPacket)
 		case followerExists:
-			w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].FollowerExists, nil, replyPacket)
+			//w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].FollowerExists, nil, replyPacket)
 		}
 	}
 	w.addUser(endpoint, chatID)
