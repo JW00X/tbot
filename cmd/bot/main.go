@@ -548,7 +548,7 @@ func (w *worker) sendAdsTr(
 		w.sendText(queue, endpoint, chatID, notify, translation.DisablePreview, translation.Parse, text, adPacket)
 	} else {
 		p := path.Join(w.cfg.Endpoints[endpoint].Images, translation.Image)
-		imageBytes, err := os.ReadFile(p)
+		imageBytes, _ := os.ReadFile(p)
 		w.sendImage(queue, endpoint, chatID, notify, translation.Parse, text, imageBytes, adPacket)
 	}
 }
