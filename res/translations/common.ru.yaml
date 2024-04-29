@@ -76,9 +76,8 @@ no_online_models:
   parse: html
   disable_preview: false
   str: |- 
-    <b>Я не в сети!</b>
-    
-    <i>Увидимся позже, а пока <a href="https://allmylinks.com/taanni">не скучай</a>!</i>
+    <b>Я не в сети</b><i>, увидимся позже!</i> 
+    <i>А пока <a href="https://allmylinks.com/taanni">не скучай</a> =)</i>
 not_enough_subscriptions:
   parse: raw
   str: Отключено
