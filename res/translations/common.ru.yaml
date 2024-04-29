@@ -1,9 +1,11 @@
 hello:
   parse: html
-  str: Привет! Этот небольшой помошник поможет тебе не пропустить мои стримы на <a href="{{ . }}">{{ template "site" }}</a>.
+  str: |-
+    <b>Привет!</b>
+    Этот небольшой помошник поможет тебе не пропустить мои стримы на <a href="{{ . }}">{{ template "site" }}</a>.
 help:
   parse: html
-  disable_preview: true
+  disable_preview: false
   str: |-
     {{ template "hello" .website_link }}
 
@@ -38,19 +40,18 @@ follower_exists:
 raw_commands:
   parse: raw
   str: |-
-    pics - Статус в этот момент
+    online - Статус в этот момент
     week - График за предыдущие 7 дней
-    settings - Настройки
     feedback - Обратная связь
 commands:
-  parse: html
+  parse: markdown
   str: |-
-    <b>Как пользоваться?</b>
-
-    <b>pics</b> — Статус в этот момент
-    <b>week</b> — График в предыдущие 7 дней
-    <b>settings</b> — Настройки
-    <b>feedback</b> <code>ВАШЕ_СООБЩЕНИЕ</code> — Обратная связь
+    **Как пользоваться?**
+    ```
+    /online — Статус в этот момент
+    /week</b> — График за предыдущие 7 дней
+    /feedback ВАШЕ_СМС — Обратная связь
+    ```
 invalid_command:
   parse: raw
   str: Ошибка в команде
@@ -160,8 +161,8 @@ remove_all:
   str: |-
     Отключено
 social:
-  disable_preview: true
-  parse: raw
+  disable_preview: false
+  parse: html
   str: |-
     <b>Соцсети:</b>
     https://allmylinks.com/taanni
@@ -175,7 +176,7 @@ subscription_usage_ad:
 settings:
   parse: html
   str: |-
-    Кадры трансляций в оповещениях: <b>{{ template "yes_no" .show_images }}</b>
+    Изображения в оповещениях: <b>{{ template "yes_no" .show_images }}</b>
     {{- print "\n" -}}
     {{- if .show_images  -}}
       Отключить: /disable_images

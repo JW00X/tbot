@@ -547,9 +547,9 @@ func (w *worker) sendAdsTr(
 	if translation.Image == "" {
 		w.sendText(queue, endpoint, chatID, notify, translation.DisablePreview, translation.Parse, text, adPacket)
 	} else {
-		p := path.Join(w.cfg.Endpoints[endpoint].Images, translation.Image)
-		imageBytes, _ := os.ReadFile(p)
-		w.sendImage(queue, endpoint, chatID, notify, translation.Parse, text, imageBytes, adPacket)
+		//p := path.Join(w.cfg.Endpoints[endpoint].Images, translation.Image)
+		//imageBytes, _ := os.ReadFile(p)
+		w.sendImage(queue, endpoint, chatID, notify, translation.Parse, text, translation.imageBytes, adPacket)
 	}
 }
 
@@ -803,7 +803,7 @@ func (w *worker) addModel(endpoint string, chatID int64, modelID string, now int
 	w.mustExec("insert into signals (chat_id, model_id, endpoint, confirmed) values (?,?,?,?)", chatID, modelID, endpoint, true)
 	w.mustExec("insert or ignore into models (model_id, status) values (?,?)", modelID, confirmedStatus)
 	subscriptionsNumber++
-	w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].ModelAdded, tplData{"model": modelID}, replyPacket)
+	//w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].ModelAdded, tplData{"model": modelID}, replyPacket)
 	nots := []notification{{
 		endpoint: endpoint,
 		chatID:   chatID,
@@ -827,12 +827,12 @@ func (w *worker) subscriptionUsage(endpoint string, chatID int64, ad bool) {
 	if ad {
 		tr = w.tr[endpoint].SubscriptionUsageAd
 	}
-	w.sendTr(w.highPriorityMsg, endpoint, chatID, false, tr,
-		tplData{
-			"subscriptions_used":  subscriptionsNumber,
-			"total_subscriptions": user.maxModels,
-		},
-		replyPacket)
+	// w.sendTr(w.highPriorityMsg, endpoint, chatID, false, tr,
+	// 	tplData{
+	// 		"subscriptions_used":  subscriptionsNumber,
+	// 		"total_subscriptions": user.maxModels,
+	// 	},
+	// 	replyPacket)
 }
 
 func (w *worker) wantMore(endpoint string, chatID int64) {
