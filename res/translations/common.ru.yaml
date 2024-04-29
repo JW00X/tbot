@@ -44,9 +44,9 @@ raw_commands:
     week - График за предыдущие 7 дней
     feedback - Обратная связь
 commands:
-  parse: markdown
+  parse: html
   str: |-
-    **Как пользоваться?**
+    <b>Как пользоваться?</b>
     ```
     /online — Статус в этот момент
     /week</b> — График за предыдущие 7 дней
