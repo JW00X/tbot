@@ -5,7 +5,7 @@ hello:
     Этот небольшой помошник поможет тебе не пропустить мои стримы на <a href="{{ . }}">{{ template "site" }}</a>.
 help:
   parse: html
-  disable_preview: false
+  disable_preview: true
   str: |-
     {{ template "hello" .website_link }}
 
@@ -47,11 +47,9 @@ commands:
   parse: html
   str: |-
     <b>Как пользоваться?</b>
-    <pre>
-    /online — Статус в этот момент
+    <pre>/online — Статус в этот момент
     /week — График за предыдущие 7 дней
-    /feedback ВАШЕ_СМС — Обратная связь
-    </pre>
+    /feedback ВАШЕ_СМС — Обратная связь</pre>
 invalid_command:
   parse: raw
   str: Ошибка в команде
@@ -161,7 +159,7 @@ remove_all:
   str: |-
     Отключено
 social:
-  disable_preview: true
+  disable_preview: false
   parse: html
   str: |-
     <b>Соцсети:</b>
