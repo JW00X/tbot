@@ -287,7 +287,7 @@ func newWorker(args []string) *worker {
 func (w *worker) loadImageForTranslation(endpoint string, tr *lib.Translation) {
 	if tr.Image != "" {
 		p := path.Join(w.cfg.Endpoints[endpoint].Images, tr.Image)
-		, err := os.ReadFile(p)
+		imageBytes, err := os.ReadFile(p)
 		tr.ImageBytes = imageBytes
 		checkErr(err)
 	}
