@@ -72,8 +72,11 @@ model_removed:
   parse: raw
   str: Отключено
 no_online_models:
-  parse: raw
-  str: Taanni не в сети!
+  parse: html
+  disable_preview: false
+  str: |- 
+    Я не в сети!
+    Увидимся позже, <a href="https://allmylinks.com/taanni>не скучай</a>!
 not_enough_subscriptions:
   parse: raw
   str: Отключено
