@@ -827,12 +827,14 @@ func (w *worker) subscriptionUsage(endpoint string, chatID int64, ad bool) {
 	if ad {
 		tr = w.tr[endpoint].SubscriptionUsageAd
 	}
-	// w.sendTr(w.highPriorityMsg, endpoint, chatID, false, tr,
-	// 	tplData{
-	// 		"subscriptions_used":  subscriptionsNumber,
-	// 		"total_subscriptions": user.maxModels,
-	// 	},
-	// 	replyPacket)
+	if false { //fake exp
+		w.sendTr(w.highPriorityMsg, endpoint, chatID, false, tr,
+			tplData{
+				"subscriptions_used":  subscriptionsNumber,
+				"total_subscriptions": user.maxModels,
+			},
+			replyPacket)
+	}
 }
 
 func (w *worker) wantMore(endpoint string, chatID int64) {
