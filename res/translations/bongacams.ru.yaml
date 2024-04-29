@@ -7,7 +7,7 @@ add_error:
     Отключено
 help:
   parse: html
-  disable_preview: true
+  disable_preview: false
   str: |-
     {{ template "hello" }}
 
