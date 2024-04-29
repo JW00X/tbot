@@ -2,8 +2,8 @@ hello:
   parse: html
   disable_preview: false
   str: |-
-    <b>Привет!</b>
-    Этот небольшой помошник поможет тебе не пропустить мои <a href="https://socprofile.com/taanni">стримы</a>.
+    <b>Привет, это Taanni!</b>
+    Этот небольшой мой помощник поможет тебе не пропустить мои <a href="https://socprofile.com/taanni">стримы</a>.
 help:
   parse: html
   disable_preview: false
