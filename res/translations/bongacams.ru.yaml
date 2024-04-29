@@ -1,15 +1,15 @@
 site:
   parse: html
-  str: BongaCams
+  str: стримы
 add_error:
   parse: html
   str: |-
     Отключено
 help:
   parse: html
-  disable_preview: false
+  disable_preview: true
   str: |-
-    {{ template "hello" .website_link }}
+    {{ template "hello" }}
 
     {{ template "commands" }}
 
