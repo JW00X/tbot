@@ -287,7 +287,7 @@ func newWorker(args []string) *worker {
 func (w *worker) loadImageForTranslation(endpoint string, tr *lib.Translation) {
 	if tr.Image != "" {
 		p := path.Join(w.cfg.Endpoints[endpoint].Images, tr.Image)
-		imageBytes, err := os.ReadFile(p)
+		, err := os.ReadFile(p)
 		tr.ImageBytes = imageBytes
 		checkErr(err)
 	}
@@ -549,7 +549,7 @@ func (w *worker) sendAdsTr(
 	} else {
 		//p := path.Join(w.cfg.Endpoints[endpoint].Images, translation.Image)
 		//imageBytes, _ := os.ReadFile(p)
-		w.sendImage(queue, endpoint, chatID, notify, translation.Parse, text, translation.imageBytes, adPacket)
+		w.sendImage(queue, endpoint, chatID, notify, translation.Parse, text, translation.ImageBytes, adPacket)
 	}
 }
 
