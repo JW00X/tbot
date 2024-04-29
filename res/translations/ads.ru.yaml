@@ -1,5 +1,8 @@
 private:
   parse: html
   str: |-
-    Мой приватный канал, заходи! <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
   image: private1.png
