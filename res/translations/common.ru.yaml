@@ -3,7 +3,8 @@ hello:
   disable_preview: false
   str: |-
     <b>Привет, это Taanni!</b>
-    Этот небольшой мой помощник поможет тебе не пропустить мои <a href="https://socprofile.com/taanni">стримы</a>.
+
+    <i>Этот бот - твой помощник, с ним ты не пропустишь мои <a href="https://socprofile.com/taanni">стримы</a>.</i>
 help:
   parse: html
   disable_preview: false
@@ -41,15 +42,15 @@ follower_exists:
 raw_commands:
   parse: raw
   str: |-
-    online - Статус в этот момент
-    week - График за предыдущие 7 дней
+    online - Статус сейчас
+    week - График за прошлую неделю
     feedback - Обратная связь
 commands:
   parse: html
   str: |-
     <b>Как пользоваться?</b>
-    <pre>/online — Статус в этот момент
-    /week — График за предыдущие 7 дней
+    <pre>/online — Статус сейчас
+    /week — График за прошлую неделю
     /feedback ВАШЕ_СМС — Обратная связь</pre>
 invalid_command:
   parse: raw
@@ -76,7 +77,8 @@ no_online_models:
   disable_preview: false
   str: |- 
     <b>Я не в сети!</b>
-    <i>Увидимся позже, <a href="https://allmylinks.com/taanni">не скучай</a>!</i>
+    
+    <i>Увидимся позже, а пока <a href="https://allmylinks.com/taanni">не скучай</a>!</i>
 not_enough_subscriptions:
   parse: raw
   str: Отключено
