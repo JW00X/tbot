@@ -1,11 +1,12 @@
 hello:
   parse: html
+  disable_preview: true
   str: |-
     <b>Привет!</b>
     Этот небольшой помошник поможет тебе не пропустить мои стримы на <a href="{{ . }}">{{ template "site" }}</a>.
 help:
   parse: html
-  disable_preview: true
+  disable_preview: false
   str: |-
     {{ template "hello" .website_link }}
 
