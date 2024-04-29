@@ -47,11 +47,11 @@ commands:
   parse: html
   str: |-
     <b>Как пользоваться?</b>
-    ```
+    <pre>
     /online — Статус в этот момент
-    /week</b> — График за предыдущие 7 дней
+    /week — График за предыдущие 7 дней
     /feedback ВАШЕ_СМС — Обратная связь
-    ```
+    </pre>
 invalid_command:
   parse: raw
   str: Ошибка в команде
@@ -161,7 +161,7 @@ remove_all:
   str: |-
     Отключено
 social:
-  disable_preview: false
+  disable_preview: true
   parse: html
   str: |-
     <b>Соцсети:</b>
