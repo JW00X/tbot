@@ -1031,7 +1031,7 @@ func (w *worker) listOnlineModels(endpoint string, chatID int64, now int) {
 		//w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].TooManySubscriptionsForPics, data, replyPacket)
 		return
 	}
-	if len(online) == 1 {
+	if len(online) == 0 {
 		p := path.Join(w.cfg.Endpoints[endpoint].Images, "offline.png")
 		imageBytes, _ := os.ReadFile(p)
 		w.sendTrImage(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].NoOnlineModels, nil, imageBytes, replyPacket)
