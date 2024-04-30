@@ -1027,7 +1027,7 @@ func (w *worker) listOnlineModels(endpoint string, chatID int64, now int) {
 		}
 	}
 	if len(online) > w.cfg.MaxSubscriptionsForPics && chatID < -1 {
-		data := tplData{"max_subs": w.cfg.MaxSubscriptionsForPics}
+		//data := tplData{"max_subs": w.cfg.MaxSubscriptionsForPics}
 		//w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].TooManySubscriptionsForPics, data, replyPacket)
 		return
 	}
