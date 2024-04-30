@@ -1,4 +1,12 @@
-private:
+private0:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private0.png
+private1:
   parse: html
   str: |-
     <b>Хочешь чуть больше?</b>
@@ -6,3 +14,131 @@ private:
 
     <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
   image: private1.png
+private2:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private2.png
+private3:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private3.png
+private4:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private4.png
+private5:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private5.png
+private6:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private6.png
+private7:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private7.png
+private8:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private8.png
+private9:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private9.png
+private10:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private10.png
+private11:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private11.png
+private12:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private12.png
+private13:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private13.png
+private14:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private14.png
+private15:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private15.png
+private16:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private16.png
+private17:
+  parse: html
+  str: |-
+    <b>Хочешь чуть больше?</b>
+    <i>Мой <s>секретный</s> канал, заходи!</i>
+
+    <a href="https://t.me/tribute/app?startapp=s1fW">CARD</a> | <a href="https://t.me/+Zsd4pEcfuz9mZDky">CRYPTO</a>
+  image: private17.png
