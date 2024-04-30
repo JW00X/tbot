@@ -1028,11 +1028,13 @@ func (w *worker) listOnlineModels(endpoint string, chatID int64, now int) {
 	}
 	if len(online) > w.cfg.MaxSubscriptionsForPics && chatID < -1 {
 		data := tplData{"max_subs": w.cfg.MaxSubscriptionsForPics}
-		w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].TooManySubscriptionsForPics, data, replyPacket)
+		//w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].TooManySubscriptionsForPics, data, replyPacket)
 		return
 	}
-	if len(online) == 0 {
-		w.sendTr(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].NoOnlineModels, nil, replyPacket)
+	if len(online) == 1 {
+		p := path.Join(w.cfg.Endpoints[endpoint].Images, "offline.png")
+		imageBytes, _ := os.ReadFile(p)
+		w.sendTrImage(w.highPriorityMsg, endpoint, chatID, false, w.tr[endpoint].NoOnlineModels, nil, imageBytes, replyPacket)
 		return
 	}
 	var nots []notification
