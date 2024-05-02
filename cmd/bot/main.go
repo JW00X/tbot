@@ -581,8 +581,11 @@ func (w *worker) createDatabase(done chan bool) {
 func (w *worker) initCache() {
 	start := time.Now()
 	w.siteStatuses = w.queryLastStatusChanges()
+	linf("CACHE siteStatuses: %v", w.siteStatuses)
 	w.siteOnline = w.getLastOnlineModels()
+	linf("CACHE siteOnline: %v", w.siteOnline)
 	w.ourOnline, w.specialModels = w.queryConfirmedModels()
+	linf("CACHE ourOnline: %v", w.ourOnline)
 	elapsed := time.Since(start)
 	linf("cache initialized in %d ms", elapsed.Milliseconds())
 }
@@ -622,31 +625,40 @@ func (w *worker) confirmationSeconds(status lib.StatusKind) int {
 
 func (w *worker) updateStatus(insertStatusChangeStmt, updateLastStatusChangeStmt *sql.Stmt, next statusChange) {
 	prev := w.siteStatuses[next.modelID]
+	linf("updateStatus: prev: %v, next: %v", prev, next)
 	if next.status != prev.status {
 		w.mustExecPrepared(insertStatusChange, insertStatusChangeStmt, next.modelID, next.status, next.timestamp)
 		w.mustExecPrepared(updateLastStatusChange, updateLastStatusChangeStmt, next.modelID, next.status, next.timestamp)
 		w.siteStatuses[next.modelID] = next
 		if next.status == lib.StatusOnline {
 			w.siteOnline[next.modelID] = true
+		} else if next.status&(lib.StatusPrivatChat|lib.StatusFullPrivatChat|lib.StatusGroupPrivatChat|lib.StatusVipShow) != 0 {
+			w.siteOnline[next.modelID] = false
 		} else {
 			delete(w.siteOnline, next.modelID)
 		}
+		linf("updateStatus: siteOnline: %v", w.siteOnline)
 	}
 }
 
 func (w *worker) confirmStatus(updateModelStatusStmt *sql.Stmt, now int) []string {
 	all := lib.HashDiffAll(w.ourOnline, w.siteOnline)
+	linf("confirmStatus: all: %v", all)
 	var confirmations []string
 	for _, modelID := range all {
 		statusChange := w.siteStatuses[modelID]
+		linf("confirmStatus: statusChange: %v", statusChange)
 		confirmationSeconds := w.confirmationSeconds(statusChange.status)
 		durationConfirmed := confirmationSeconds == 0 || statusChange.timestamp == 0 || (now-statusChange.timestamp >= confirmationSeconds)
 		if durationConfirmed {
 			if statusChange.status == lib.StatusOnline {
 				w.ourOnline[modelID] = true
+			} else if statusChange.status&(lib.StatusPrivatChat|lib.StatusFullPrivatChat|lib.StatusGroupPrivatChat|lib.StatusVipShow) != 0 {
+				w.ourOnline[modelID] = false
 			} else {
 				delete(w.ourOnline, modelID)
 			}
+			linf("confirmStatus: ourOnline: %v", w.ourOnline)
 			w.mustExecPrepared(updateModelStatus, updateModelStatusStmt, modelID, statusChange.status)
 			confirmations = append(confirmations, modelID)
 		}
@@ -1036,6 +1048,7 @@ func (w *worker) downloadImageInternal(url string) ([]byte, error) {
 
 func (w *worker) listOnlineModels(endpoint string, chatID int64, now int) {
 	statuses := w.statusesForChat(endpoint, chatID)
+	linf("listOnlineModels: statuses: %v", statuses)
 	var online []model
 	for _, s := range statuses {
 		if s.status&(lib.StatusOnline|lib.StatusPrivatChat|lib.StatusFullPrivatChat|lib.StatusGroupPrivatChat|lib.StatusVipShow) != 0 {
