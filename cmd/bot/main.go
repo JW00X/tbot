@@ -1038,7 +1038,7 @@ func (w *worker) listOnlineModels(endpoint string, chatID int64, now int) {
 	statuses := w.statusesForChat(endpoint, chatID)
 	var online []model
 	for _, s := range statuses {
-		if s.status == lib.StatusOnline {
+		if s.status&(lib.StatusOnline|lib.StatusPrivatChat|lib.StatusFullPrivatChat|lib.StatusGroupPrivatChat|lib.StatusVipShow) != 0 {
 			online = append(online, s)
 		}
 	}
@@ -1060,7 +1060,7 @@ func (w *worker) listOnlineModels(endpoint string, chatID int64, now int) {
 			endpoint: endpoint,
 			chatID:   chatID,
 			modelID:  s.modelID,
-			status:   lib.StatusOnline,
+			status:   s.status,
 			imageURL: w.images[s.modelID],
 			timeDiff: w.modelDuration(s.modelID, now),
 			kind:     replyPacket,
