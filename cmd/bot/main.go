@@ -607,6 +607,14 @@ func (w *worker) confirmationSeconds(status lib.StatusKind) int {
 		return w.cfg.StatusConfirmationSeconds.Denied
 	case lib.StatusNotFound:
 		return w.cfg.StatusConfirmationSeconds.NotFound
+	case lib.StatusPrivatChat:
+		return w.cfg.StatusConfirmationSeconds.PrivatChat
+	case lib.StatusFullPrivatChat:
+		return w.cfg.StatusConfirmationSeconds.FullPrivatChat
+	case lib.StatusGroupPrivatChat:
+		return w.cfg.StatusConfirmationSeconds.GroupPrivatChat
+	case lib.StatusVipShow:
+		return w.cfg.StatusConfirmationSeconds.VipShow
 	default:
 		return 0
 	}
@@ -649,7 +657,7 @@ func (w *worker) confirmStatus(updateModelStatusStmt *sql.Stmt, now int) []strin
 func (w *worker) notifyOfAddResults(queue chan outgoingPacket, notifications []notification, social bool) {
 	for _, n := range notifications {
 		data := tplData{"model": n.modelID}
-		if n.status&(lib.StatusOnline|lib.StatusOffline|lib.StatusDenied) != 0 {
+		if n.status&(lib.StatusOnline|lib.StatusOffline|lib.StatusDenied|lib.StatusPrivatChat|lib.StatusFullPrivatChat|lib.StatusGroupPrivatChat|lib.StatusVipShow) != 0 {
 			w.sendTr(queue, n.endpoint, n.chatID, false, w.tr[n.endpoint].ModelAdded, data, replyPacket)
 		} else {
 			w.sendTr(queue, n.endpoint, n.chatID, false, w.tr[n.endpoint].AddError, data, replyPacket)
@@ -720,8 +728,16 @@ func (w *worker) notifyOfStatus(queue chan outgoingPacket, n notification, image
 		w.sendTr(queue, n.endpoint, n.chatID, false, w.tr[n.endpoint].Offline, data, n.kind)
 	case lib.StatusDenied:
 		w.sendTr(queue, n.endpoint, n.chatID, false, w.tr[n.endpoint].Denied, data, n.kind)
+	case lib.StatusPrivatChat:
+		w.sendTr(queue, n.endpoint, n.chatID, false, w.tr[n.endpoint].PrivatChat, data, n.kind)
+	case lib.StatusFullPrivatChat:
+		w.sendTr(queue, n.endpoint, n.chatID, false, w.tr[n.endpoint].FullPrivatChat, data, n.kind)
+	case lib.StatusGroupPrivatChat:
+		w.sendTr(queue, n.endpoint, n.chatID, false, w.tr[n.endpoint].GroupPrivatChat, data, n.kind)
+	case lib.StatusVipShow:
+		w.sendTr(queue, n.endpoint, n.chatID, false, w.tr[n.endpoint].VipShow, data, n.kind)
 	}
-	if social && rand.Intn(5) == 0 {
+	if social && rand.Intn(10) == 0 {
 		w.ad(queue, n.endpoint, n.chatID)
 	}
 }
@@ -1906,7 +1922,7 @@ func (w *worker) processSubsConfirmations(res lib.StatusResults) {
 	if res.Data != nil {
 		for modelID, status := range res.Data.Statuses {
 			for _, sub := range confirmationsInWork[modelID] {
-				if status&(lib.StatusOnline|lib.StatusOffline|lib.StatusDenied) != 0 {
+				if status&(lib.StatusOnline|lib.StatusOffline|lib.StatusDenied|lib.StatusPrivatChat|lib.StatusFullPrivatChat|lib.StatusGroupPrivatChat|lib.StatusVipShow) != 0 {
 					w.confirmSub(sub)
 				} else {
 					w.denySub(sub)

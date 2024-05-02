@@ -55,6 +55,10 @@ type Translations struct {
 	List                        *Translation `yaml:"list"`
 	Offline                     *Translation `yaml:"offline"`
 	Denied                      *Translation `yaml:"denied"`
+	PrivatChat                  *Translation `yaml:"privat"`
+	FullPrivatChat              *Translation `yaml:"full_privat"`
+	GroupPrivatChat             *Translation `yaml:"group_privat"`
+	VipShow                     *Translation `yaml:"vip_show"`
 	SyntaxAdd                   *Translation `yaml:"syntax_add"`
 	SyntaxRemove                *Translation `yaml:"syntax_remove"`
 	SyntaxFeedback              *Translation `yaml:"syntax_feedback"`

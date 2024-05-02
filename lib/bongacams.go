@@ -103,6 +103,15 @@ func (c *BongaCamsChecker) checkEndpoint(endpoint string) (onlineModels map[stri
 		if m.IsOffline == false {
 			modelID := strings.ToLower(m.DisplayName)
 			onlineModels[modelID] = StatusOnline
+			if m.IsPrivatChat == true {
+				onlineModels[modelID] = StatusPrivatChat
+			}
+			if m.IsFullPrivatChat == true {
+				onlineModels[modelID] = StatusFullPrivatChat
+			}
+			if m.IsGroupPrivatChat == true {
+				onlineModels[modelID] = StatusGroupPrivatChat
+			}
 			images[modelID] = "https:" // + m.ProfileImages.ThumbnailImageMediumLive
 		}
 	}

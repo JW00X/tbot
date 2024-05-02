@@ -95,6 +95,34 @@ offline:
     {{ template "affiliate_link" .model }}
     {{- print " " -}}
     <i>не в сети {{- if .time_diff -}}, была {{ template "duration" .time_diff }} назад {{- end -}}</i>
+privat:
+  parse: html
+  disable_preview: true
+  str: |-
+    {{ template "affiliate_link" .model }}
+    {{- print " " -}}
+    <i>в приватном чате {{- if .time_diff }} {{ template "duration" .time_diff -}} {{- end -}}</i>
+full_privat:
+  parse: html
+  disable_preview: true
+  str: |-
+    {{ template "affiliate_link" .model }}
+    {{- print " " -}}
+    <i>в полном приватном чате {{- if .time_diff }} {{ template "duration" .time_diff -}} {{- end -}}</i>
+group_privat:
+  parse: html
+  disable_preview: true
+  str: |-
+    {{ template "affiliate_link" .model }}
+    {{- print " " -}}
+    <i>в групповом чате {{- if .time_diff }} {{ template "duration" .time_diff -}} {{- end -}}</i>
+vip_show:
+  parse: html
+  disable_preview: true
+  str: |-
+    У {{ template "affiliate_link" .model }}
+    {{- print " " -}}
+    <i>VIP шоу, не пропусти!</i>
 zero_subscriptions:
   parse: html
   str: |-

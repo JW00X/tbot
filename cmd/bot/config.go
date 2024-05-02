@@ -25,10 +25,14 @@ type endpoint struct {
 }
 
 type statusConfirmationSeconds struct {
-	Offline  int `json:"offline"`
-	Online   int `json:"online"`
-	NotFound int `json:"not_found"`
-	Denied   int `json:"denied"`
+	Offline  			int `json:"offline"`
+	Online   			int `json:"online"`
+	NotFound 			int `json:"not_found"`
+	Denied   			int `json:"denied"`
+	PrivatChat   		int `json:"privat"`
+	FullPrivatChat   	int `json:"full_privat"`
+	GroupPrivatChat		int `json:"group_privat"`
+	VipShow   			int `json:"vip_show"`
 }
 
 type config struct {
