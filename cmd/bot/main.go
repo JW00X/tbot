@@ -1570,6 +1570,10 @@ func (w *worker) processStatusUpdates(updates []lib.StatusUpdate, now int) (
 	notifications []notification,
 	elapsed time.Duration,
 ) {
+	if w.cfg.Debug {
+		ldbg("processStatusUpdates: updates %v", updates)
+	}
+
 	start := time.Now()
 	usersForModels, endpointsForModels := w.usersForModels()
 	tx, err := w.db.Begin()
