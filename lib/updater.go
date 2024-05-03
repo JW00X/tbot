@@ -84,7 +84,7 @@ func selectiveUpdateReqToStatus(r StatusUpdateRequest, callback func(StatusResul
 func onlyOnline(ss map[string]StatusKind) map[string]bool {
 	boolMap := map[string]bool{}
 	for k, s := range ss {
-		if s&(StatusOnline|StatusPrivatChat|StatusFullPrivatChat|StatusGroupPrivatChat|StatusVipShow) {
+		if s&(StatusOnline|StatusPrivatChat|StatusFullPrivatChat|StatusGroupPrivatChat|StatusVipShow) != 0 {
 			boolMap[k] = true
 		}
 	}
