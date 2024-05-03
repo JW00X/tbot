@@ -37,6 +37,7 @@ type StatusUpdateResults struct {
 func getUpdates(prev, next map[string]bool) []StatusUpdate {
 	var result []StatusUpdate
 	newElems, removed := HashDiffNewRemoved(prev, next)
+	ldbg("getUpdates: newElems: %v removed %v", newElems, removed)
 	for _, i := range removed {
 		result = append(result, StatusUpdate{ModelID: i, Status: StatusOffline})
 	}
@@ -79,7 +80,7 @@ func selectiveUpdateReqToStatus(r StatusUpdateRequest, callback func(StatusResul
 func onlyOnline(ss map[string]StatusKind) map[string]bool {
 	boolMap := map[string]bool{}
 	for k, s := range ss {
-		if s == StatusOnline {
+		if s&(StatusOnline|StatusPrivatChat|StatusFullPrivatChat|StatusGroupPrivatChat|StatusVipShow) {
 			boolMap[k] = true
 		}
 	}
