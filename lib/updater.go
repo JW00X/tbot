@@ -37,7 +37,7 @@ type StatusUpdateResults struct {
 func getUpdates(prev, next map[string]bool) []StatusUpdate {
 	var result []StatusUpdate
 	newElems, removed := HashDiffNewRemoved(prev, next)
-	ldbg("getUpdates: newElems: %v removed %v", newElems, removed)
+	log.Printf("[DEBUG] getUpdates: newElems: %v removed %v", newElems, removed)
 	for _, i := range removed {
 		result = append(result, StatusUpdate{ModelID: i, Status: StatusOffline})
 	}
