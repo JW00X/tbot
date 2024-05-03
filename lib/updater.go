@@ -1,6 +1,9 @@
 package lib
 
-import "time"
+import (
+	"log"
+	"time"
+)
 
 // Updater implements updater adapter
 type Updater interface {
@@ -36,6 +39,7 @@ type StatusUpdateResults struct {
 
 func getUpdates(prev, next map[string]bool) []StatusUpdate {
 	var result []StatusUpdate
+	log.Printf("[DEBUG] getUpdates: prev: %v next %v", prev, next)
 	newElems, removed := HashDiffNewRemoved(prev, next)
 	log.Printf("[DEBUG] getUpdates: newElems: %v removed %v", newElems, removed)
 	for _, i := range removed {
