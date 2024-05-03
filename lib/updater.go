@@ -37,17 +37,18 @@ type StatusUpdateResults struct {
 	Errors int
 }
 
-func getUpdates(prev, next map[string]bool) []StatusUpdate {
+func getUpdates(prev, next map[string]bool, ss map[string]StatusKind) []StatusUpdate {
 	var result []StatusUpdate
 	log.Printf("[DEBUG] getUpdates: prev: %v next %v", prev, next)
 	newElems, removed := HashDiffNewRemoved(prev, next)
 	log.Printf("[DEBUG] getUpdates: newElems: %v removed %v", newElems, removed)
 	for _, i := range removed {
-		result = append(result, StatusUpdate{ModelID: i, Status: StatusOffline})
+		result = append(result, StatusUpdate{ModelID: i, Status: ss[i]})
 	}
 	for _, i := range newElems {
 		result = append(result, StatusUpdate{ModelID: i, Status: StatusOnline})
 	}
+	log.Printf("[DEBUG] getUpdates: result: %v", result)
 	return result
 }
 
@@ -84,7 +85,7 @@ func selectiveUpdateReqToStatus(r StatusUpdateRequest, callback func(StatusResul
 func onlyOnline(ss map[string]StatusKind) map[string]bool {
 	boolMap := map[string]bool{}
 	for k, s := range ss {
-		if s&(StatusOnline|StatusPrivatChat|StatusFullPrivatChat|StatusGroupPrivatChat|StatusVipShow) != 0 {
+		if s == StatusOnline {
 			boolMap[k] = true
 		}
 	}
