@@ -12,7 +12,7 @@ func (f *selectiveUpdater) QueryUpdates(updateRequest StatusUpdateRequest) error
 		var updateResults StatusUpdateResults
 		if res.Data != nil {
 			online := onlyOnline(res.Data.Statuses)
-			updates := getUpdates(f.siteOnlineModels, online)
+			updates := getUpdates(f.siteOnlineModels, online, res.Data.Statuses)
 			f.siteOnlineModels = online
 			_, unknowns := HashDiffNewRemoved(f.knowns, subsSet)
 			f.knowns = subsSet

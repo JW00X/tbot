@@ -11,7 +11,7 @@ func (f *fullUpdater) QueryUpdates(updateRequest StatusUpdateRequest) error {
 		if res.Data != nil {
 			online := onlyOnline(res.Data.Statuses)
 			updateResults = StatusUpdateResults{Data: &StatusUpdateResultsData{
-				Updates: getUpdates(f.siteOnlineModels, online),
+				Updates: getUpdates(f.siteOnlineModels, online, res.Data.Statuses),
 				Images:  res.Data.Images,
 				Elapsed: res.Data.Elapsed,
 			}}
