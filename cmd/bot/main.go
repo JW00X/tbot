@@ -632,8 +632,8 @@ func (w *worker) updateStatus(insertStatusChangeStmt, updateLastStatusChangeStmt
 		w.siteStatuses[next.modelID] = next
 		if next.status == lib.StatusOnline {
 			w.siteOnline[next.modelID] = true
-		} else if next.status&(lib.StatusPrivatChat|lib.StatusFullPrivatChat|lib.StatusGroupPrivatChat|lib.StatusVipShow) != 0 {
-			w.siteOnline[next.modelID] = false
+		//} else if next.status&(lib.StatusPrivatChat|lib.StatusFullPrivatChat|lib.StatusGroupPrivatChat|lib.StatusVipShow) != 0 {
+		//	w.siteOnline[next.modelID] = false
 		} else {
 			delete(w.siteOnline, next.modelID)
 		}
@@ -653,8 +653,8 @@ func (w *worker) confirmStatus(updateModelStatusStmt *sql.Stmt, now int) []strin
 		if durationConfirmed {
 			if statusChange.status == lib.StatusOnline {
 				w.ourOnline[modelID] = true
-			} else if statusChange.status&(lib.StatusPrivatChat|lib.StatusFullPrivatChat|lib.StatusGroupPrivatChat|lib.StatusVipShow) != 0 {
-				w.ourOnline[modelID] = false
+			//} else if statusChange.status&(lib.StatusPrivatChat|lib.StatusFullPrivatChat|lib.StatusGroupPrivatChat|lib.StatusVipShow) != 0 {
+			//	w.ourOnline[modelID] = false
 			} else {
 				delete(w.ourOnline, modelID)
 			}
