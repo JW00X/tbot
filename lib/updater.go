@@ -43,7 +43,11 @@ func getUpdates(prev, next map[string]bool, ss map[string]StatusKind) []StatusUp
 	newElems, removed := HashDiffNewRemoved(prev, next)
 	log.Printf("[DEBUG] getUpdates: newElems: %v removed %v", newElems, removed)
 	for _, i := range removed {
-		result = append(result, StatusUpdate{ModelID: i, Status: ss[i]})
+		if _, ok := ss[i]; ok {
+			result = append(result, StatusUpdate{ModelID: i, Status: ss[i]})
+		} else {
+			result = append(result, StatusUpdate{ModelID: i, Status: StatusOffline})
+		}
 	}
 	for _, i := range newElems {
 		result = append(result, StatusUpdate{ModelID: i, Status: StatusOnline})
