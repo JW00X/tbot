@@ -731,10 +731,12 @@ func (w *worker) notifyOfStatus(queue chan outgoingPacket, n notification, image
 	data := tplData{"model": n.modelID, "time_diff": timeDiff}
 	switch n.status {
 	case lib.StatusOnline:
-		if image == nil {
-			w.sendTr(queue, n.endpoint, n.chatID, true, w.tr[n.endpoint].Online, data, n.kind)
+		if timeDiff.Days > 0 || timeDiff.Hours >= 5 {
+			p := path.Join(w.cfg.Endpoints[endpoint].Images, "starting.gif")
+			imageBytes, _ := os.ReadFile(p)
+			w.sendTrImage(queue, n.endpoint, n.chatID, true, w.tr[n.endpoint].Online, data, imageBytes, n.kind)
 		} else {
-			w.sendTrImage(queue, n.endpoint, n.chatID, true, w.tr[n.endpoint].Online, data, image, n.kind)
+			w.sendTr(queue, n.endpoint, n.chatID, true, w.tr[n.endpoint].Online, data, n.kind)
 		}
 	case lib.StatusOffline:
 		w.sendTr(queue, n.endpoint, n.chatID, false, w.tr[n.endpoint].Offline, data, n.kind)
