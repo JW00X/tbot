@@ -27,5 +27,5 @@ type statistics struct {
 	ConfirmedChangesInPeriod     int                `json:"confirmed_changes_in_period"`
 	Interactions                 map[int]int        `json:"interactions"`
 	InteractionsByKind           map[packetKind]int `json:"interactions_by_kind"`
-	UsersIds           			 []int 				`json:"users_ids"`
+	BroadcastChats           	 []int64 			`json:"broadcast_chats"`
 }

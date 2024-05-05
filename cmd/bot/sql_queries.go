@@ -251,7 +251,7 @@ func (w *worker) usersCount(endpoint string) int {
 	return w.mustInt("select count(distinct chat_id) from signals where endpoint=?", endpoint)
 }
 
-func (w *worker) usersIds(endpoint string) int {
+func (w *worker) usersIds(endpoint string) []int {
 	return w.mustInt("select distinct chat_id from signals where endpoint=?", endpoint)
 }
 

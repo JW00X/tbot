@@ -1169,6 +1169,7 @@ func (w *worker) statStrings(endpoint string) []string {
 		fmt.Sprintf("Model referrals: %d", stat.ModelReferralsCount),
 		fmt.Sprintf("Changes in period: %d", stat.ChangesInPeriod),
 		fmt.Sprintf("Confirmed changes in period: %d", stat.ConfirmedChangesInPeriod),
+		fmt.Sprintf("Broadcast chats: %v", stat.BroadcastChats),
 	}
 }
 
@@ -1760,7 +1761,7 @@ func (w *worker) getStat(endpoint string) statistics {
 		ConfirmedChangesInPeriod:     w.confirmedChangesInPeriod,
 		Interactions:                 w.interactionsByResultToday(endpoint),
 		InteractionsByKind:           w.interactionsByKindToday(endpoint),
-		UsersIds:					  w.usersIds(endpoint),
+		BroadcastChats:				  w.broadcastChats(endpoint),
 	}
 }
 
