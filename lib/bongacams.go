@@ -31,6 +31,7 @@ type bongacamsModel struct {
 // CheckStatusSingle checks BongaCams model status
 func (c *BongaCamsChecker) CheckStatusSingle(modelID string) StatusKind {
 	client := c.clientsLoop.nextClient()
+	onlineModels = map[string]StatusKind{}
 	
 	resp, buf, err := onlineQuery(endpoint, client, c.Headers)
 	if err != nil {
