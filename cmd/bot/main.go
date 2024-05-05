@@ -732,7 +732,7 @@ func (w *worker) notifyOfStatus(queue chan outgoingPacket, n notification, image
 	switch n.status {
 	case lib.StatusOnline:
 		if timeDiff.Days > 0 || timeDiff.Hours >= 5 {
-			p := path.Join(w.cfg.Endpoints[endpoint].Images, "starting.gif")
+			p := path.Join(w.cfg.Endpoints[n.endpoint].Images, "starting.gif")
 			imageBytes, _ := os.ReadFile(p)
 			w.sendTrImage(queue, n.endpoint, n.chatID, true, w.tr[n.endpoint].Online, data, imageBytes, n.kind)
 		} else {
