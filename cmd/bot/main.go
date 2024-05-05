@@ -1760,6 +1760,7 @@ func (w *worker) getStat(endpoint string) statistics {
 		ConfirmedChangesInPeriod:     w.confirmedChangesInPeriod,
 		Interactions:                 w.interactionsByResultToday(endpoint),
 		InteractionsByKind:           w.interactionsByKindToday(endpoint),
+		UsersIds:					  w.usersIds(endpoint),
 	}
 }
 
