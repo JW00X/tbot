@@ -739,7 +739,13 @@ func (w *worker) notifyOfStatus(queue chan outgoingPacket, n notification, image
 			w.sendTr(queue, n.endpoint, n.chatID, true, w.tr[n.endpoint].Online, data, n.kind)
 		}
 	case lib.StatusOffline:
-		w.sendTr(queue, n.endpoint, n.chatID, false, w.tr[n.endpoint].Offline, data, n.kind)
+		if timeDiff.Days > 0 || timeDiff.Hours > 0 || timeDiff.Minutes > 10 {
+			p := path.Join(w.cfg.Endpoints[n.endpoint].Images, "ending.gif")
+			imageBytes, _ := os.ReadFile(p)
+			w.sendTrImage(queue, n.endpoint, n.chatID, true, w.tr[n.endpoint].Offline, data, imageBytes, n.kind)
+		} else {
+			w.sendTr(queue, n.endpoint, n.chatID, false, w.tr[n.endpoint].Offline, data, n.kind)
+		}
 	case lib.StatusDenied:
 		w.sendTr(queue, n.endpoint, n.chatID, false, w.tr[n.endpoint].Denied, data, n.kind)
 	case lib.StatusPrivatChat:
