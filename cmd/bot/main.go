@@ -1947,6 +1947,7 @@ func (w *worker) processSubsConfirmations(res lib.StatusResults) {
 		func() { confirmationsInWork[iter.modelID] = append(confirmationsInWork[iter.modelID], iter) })
 	var nots []notification
 	if res.Data != nil {
+		ldbg("processSubsConfirmations: res.Data.Statuses %v", res.Data.Statuses)
 		for modelID, status := range res.Data.Statuses {
 			for _, sub := range confirmationsInWork[modelID] {
 				if status&(lib.StatusOnline|lib.StatusOffline|lib.StatusDenied|lib.StatusPrivatChat|lib.StatusFullPrivatChat|lib.StatusGroupPrivatChat|lib.StatusVipShow) != 0 {

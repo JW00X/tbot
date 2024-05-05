@@ -30,16 +30,77 @@ type bongacamsModel struct {
 
 // CheckStatusSingle checks BongaCams model status
 func (c *BongaCamsChecker) CheckStatusSingle(modelID string) StatusKind {
-	code := c.queryStatusCode(fmt.Sprintf("https://en.bongacams.com/%s", modelID))
-	switch code {
-	case 200:
-		return StatusOnline
-	case 302:
-		return StatusOffline
-	case 404:
-		return StatusNotFound
+	client := c.clientsLoop.nextClient()
+	
+	resp, buf, err := onlineQuery(endpoint, client, c.Headers)
+	if err != nil {
+		return nil, nil, fmt.Errorf("cannot send a query, %v", err)
 	}
-	return StatusUnknown
+	if resp.StatusCode != 200 {
+		return nil, nil, fmt.Errorf("query status, %d", resp.StatusCode)
+	}
+
+	doc, err := html.Parse(bytes.NewReader(buf.Bytes()))
+    if err != nil {
+        return nil, nil, fmt.Errorf("cannot parse html, %v", err)
+    }
+
+	var processAll func(*html.Node, *[]bongacamsModel)
+    processAll = func(n *html.Node, ptrModelArr *[]bongacamsModel) {
+        if n.Type == html.ElementNode && n.Data == "script" {
+            for _, a := range n.Attr {
+				if a.Key == "data-type" && strings.Contains(a.Val, "initialState") {
+					for c := n.FirstChild; c != nil; c = c.NextSibling {
+						if c.Type == html.TextNode && strings.Contains(c.Data, "chatShowStatusOptions") {
+							var jsonData map[string]*json.RawMessage
+							if err := json.Unmarshal([]byte(c.Data), &jsonData); err != nil {
+								Ldbg("cannot parse JSON, %v", err)
+							}
+							var m bongacamsModel
+							err := json.Unmarshal(*jsonData["chatShowStatusOptions"], &m)
+							if err != nil {
+								Ldbg("cannot parse JSON, %v", err)
+							}
+							*ptrModelArr = append(*ptrModelArr, m)
+						}
+					}
+				}
+			}
+ 
+        }
+
+		for c := n.FirstChild; c != nil; c = c.NextSibling {
+            processAll(c, ptrModelArr)
+        }
+    }
+
+	var models []bongacamsModel
+	processAll(doc, &models)
+
+	if len(models) == 0 {
+		return nil, nil, errors.New("spec models are not defined")
+	}
+
+	for _, m := range models {
+		if m.IsOffline == false {
+			modelID := strings.ToLower(m.DisplayName)
+			onlineModels[modelID] = StatusOnline
+			if m.IsPrivatChat == true {
+				onlineModels[modelID] = StatusPrivatChat
+			}
+			if m.IsFullPrivatChat == true {
+				onlineModels[modelID] = StatusFullPrivatChat
+			}
+			if m.IsGroupPrivatChat == true {
+				onlineModels[modelID] = StatusGroupPrivatChat
+			}
+			images[modelID] = "https:" // + m.ProfileImages.ThumbnailImageMediumLive
+
+			return onlineModels[modelID]
+		}
+
+		return StatusOffline
+	} 
 }
 
 // checkEndpoint returns BongaCams online models on the endpoint
