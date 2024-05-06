@@ -28,11 +28,6 @@ type bongacamsModel struct {
 	//ProfileImages			string 	`json:"profileImage"`
 }
 
-// CheckStatusSingle checks BongaCams model status
-func (c *BongaCamsChecker) CheckStatusSingle(modelID string) StatusKind {
-	return StatusOffline 
-}
-
 // checkEndpoint returns BongaCams online models on the endpoint
 func (c *BongaCamsChecker) checkEndpoint(endpoint string) (onlineModels map[string]StatusKind, images map[string]string, err error) {
 	client := c.clientsLoop.nextClient()
@@ -103,10 +98,22 @@ func (c *BongaCamsChecker) checkEndpoint(endpoint string) (onlineModels map[stri
 			if m.IsGroupPrivatChat == true {
 				onlineModels[modelID] = StatusGroupPrivatChat
 			}
-			images[modelID] = "https:" // + m.ProfileImages.ThumbnailImageMediumLive
+			images[modelID] = "" // + m.ProfileImages.ThumbnailImageMediumLive //TODO
 		}
 	}
 	return
+}
+
+// CheckStatusSingle checks BongaCams model status
+func (c *BongaCamsChecker) CheckStatusSingle(modelID string) StatusKind {
+	statuses := map[string]StatusKind{}
+	var err error
+	statuses, _, err = checkEndpoints(c, c.UsersOnlineEndpoints, c.Dbg)
+	if err != nil {
+		return StatusUnknown
+	}
+	
+	return statuses[modelID]
 }
 
 // CheckStatusesMany returns BongaCams online models

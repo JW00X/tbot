@@ -724,23 +724,29 @@ func (w *worker) notifyOfStatus(queue chan outgoingPacket, n notification, image
 		ldbg("notifying of status of the model %s", n.modelID)
 	}
 	var timeDiff *timeDiff
+	showImageOnline := false
+	showImageOffline := false
+
 	if n.timeDiff != nil {
 		temp := calcTimeDiff(*n.timeDiff)
 		timeDiff = &temp
+
+		showImageOnline = (timeDiff.Days > 0 || timeDiff.Hours >= 5)
+		showImageOffline = (timeDiff.Minutes > 10)
 	}
 	data := tplData{"model": n.modelID, "time_diff": timeDiff}
 	switch n.status {
 	case lib.StatusOnline:
-		if timeDiff.Days > 0 || timeDiff.Hours >= 5 {
-			p := path.Join(w.cfg.Endpoints[n.endpoint].Images, "starting.gif")
+		if showImageOnline {
+			p := path.Join(w.cfg.Endpoints[n.endpoint].Images, "starting.mp4")
 			imageBytes, _ := os.ReadFile(p)
 			w.sendTrImage(queue, n.endpoint, n.chatID, true, w.tr[n.endpoint].Online, data, imageBytes, n.kind)
 		} else {
 			w.sendTr(queue, n.endpoint, n.chatID, true, w.tr[n.endpoint].Online, data, n.kind)
 		}
 	case lib.StatusOffline:
-		if true {
-			p := path.Join(w.cfg.Endpoints[n.endpoint].Images, "ending.gif")
+		if showImageOffline {
+			p := path.Join(w.cfg.Endpoints[n.endpoint].Images, "ending.mp4")
 			imageBytes, _ := os.ReadFile(p)
 			w.sendTrImage(queue, n.endpoint, n.chatID, true, w.tr[n.endpoint].Offline, data, imageBytes, n.kind)
 		} else {
