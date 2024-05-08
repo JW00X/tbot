@@ -22,13 +22,12 @@ type Client struct {
 func NoRedirect(_ *http.Request, _ []*http.Request) error { return http.ErrUseLastResponse }
 
 // HTTPClientWithTimeoutAndAddress returns HTTP client bound to specific IP address
-func HTTPClientWithTimeoutAndAddress(timeoutSeconds int, address string, cookies bool) *Client {
+func HTTPClientWithTimeoutAndAddress(timeoutSeconds int, address string, cookies bool, proxy bool) *Client {
 	addr := &net.TCPAddr{IP: net.ParseIP(address)}
 	var client = &http.Client{
 		CheckRedirect: NoRedirect,
 		Timeout:       time.Second * time.Duration(timeoutSeconds),
 		Transport: &http.Transport{
-			Proxy: http.ProxyFromEnvironment,
 			DialContext: (&net.Dialer{
 				LocalAddr: addr,
 				Timeout:   time.Second * time.Duration(timeoutSeconds),
@@ -41,6 +40,9 @@ func HTTPClientWithTimeoutAndAddress(timeoutSeconds int, address string, cookies
 			ExpectContinueTimeout: time.Duration(0),
 			TLSClientConfig:       &tls.Config{MinVersion: tls.VersionTLS12},
 		},
+	}
+	if proxy {
+		client.Transport.Proxy = http.ProxyFromEnvironment
 	}
 	if cookies {
 		cookieJar, _ := cookiejar.New(nil)

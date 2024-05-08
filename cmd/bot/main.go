@@ -213,10 +213,10 @@ func newWorker(args []string) *worker {
 
 	var clients []*lib.Client
 	for _, address := range cfg.SourceIPAddresses {
-		clients = append(clients, lib.HTTPClientWithTimeoutAndAddress(cfg.TimeoutSeconds, address, cfg.EnableCookies))
+		clients = append(clients, lib.HTTPClientWithTimeoutAndAddress(cfg.TimeoutSeconds, address, cfg.EnableCookies, true))
 	}
 
-	telegramClient := lib.HTTPClientWithTimeoutAndAddress(cfg.TelegramTimeoutSeconds, "", false)
+	telegramClient := lib.HTTPClientWithTimeoutAndAddress(cfg.TelegramTimeoutSeconds, "", false, false)
 	bots := make(map[string]*tg.BotAPI)
 	for n, p := range cfg.Endpoints {
 		//noinspection GoNilness

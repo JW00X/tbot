@@ -20,7 +20,7 @@ func main() {
 		flag.PrintDefaults()
 	}
 	flag.Parse()
-	client := lib.HTTPClientWithTimeoutAndAddress(*timeout, *address, *cookies)
+	client := lib.HTTPClientWithTimeoutAndAddress(*timeout, *address, *cookies, true)
 	checker := &lib.BongaCamsChecker{}
 	checker.Init(checker, lib.CheckerConfig{UsersOnlineEndpoints: []string{*endpoint}, Clients: []*lib.Client{client}, Dbg: *verbose})
 	models, images, err := checker.CheckStatusesMany(lib.AllModels, lib.CheckOnline)

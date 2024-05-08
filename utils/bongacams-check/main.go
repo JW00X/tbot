@@ -28,7 +28,7 @@ func main() {
 		fmt.Println("invalid model ID")
 		return
 	}
-	client := lib.HTTPClientWithTimeoutAndAddress(*timeout, *address, *cookies)
+	client := lib.HTTPClientWithTimeoutAndAddress(*timeout, *address, *cookies, true)
 	checker := &lib.BongaCamsChecker{}
 	checker.Init(checker, lib.CheckerConfig{Clients: []*lib.Client{client}, Dbg: *verbose})
 	fmt.Println(checker.CheckStatusSingle(modelID))
