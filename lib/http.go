@@ -26,7 +26,7 @@ func HTTPClientWithTimeoutAndAddress(timeoutSeconds int, address string, cookies
 	addr := &net.TCPAddr{IP: net.ParseIP(address)}
 	p := http.ProxyFromEnvironment
 	if !proxy {
-		p = http.ProxyURL("")
+		p = nil
 	}
 	var client = &http.Client{
 		CheckRedirect: NoRedirect,
