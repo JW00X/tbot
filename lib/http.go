@@ -24,10 +24,15 @@ func NoRedirect(_ *http.Request, _ []*http.Request) error { return http.ErrUseLa
 // HTTPClientWithTimeoutAndAddress returns HTTP client bound to specific IP address
 func HTTPClientWithTimeoutAndAddress(timeoutSeconds int, address string, cookies bool, proxy bool) *Client {
 	addr := &net.TCPAddr{IP: net.ParseIP(address)}
+	p := http.ProxyFromEnvironment
+	if !proxy {
+		p = http.ProxyURL("")
+	}
 	var client = &http.Client{
 		CheckRedirect: NoRedirect,
 		Timeout:       time.Second * time.Duration(timeoutSeconds),
 		Transport: &http.Transport{
+			Proxy: p,
 			DialContext: (&net.Dialer{
 				LocalAddr: addr,
 				Timeout:   time.Second * time.Duration(timeoutSeconds),
@@ -40,11 +45,6 @@ func HTTPClientWithTimeoutAndAddress(timeoutSeconds int, address string, cookies
 			ExpectContinueTimeout: time.Duration(0),
 			TLSClientConfig:       &tls.Config{MinVersion: tls.VersionTLS12},
 		},
-	}
-	if proxy {
-		client.Transport.Proxy = http.ProxyFromEnvironment
-	} else {
-		client.Transport.Proxy = nil, nil
 	}
 	if cookies {
 		cookieJar, _ := cookiejar.New(nil)
