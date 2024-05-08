@@ -43,6 +43,8 @@ func HTTPClientWithTimeoutAndAddress(timeoutSeconds int, address string, cookies
 	}
 	if proxy {
 		client.Transport.Proxy = http.ProxyFromEnvironment
+	} else {
+		client.Transport.Proxy = nil, nil
 	}
 	if cookies {
 		cookieJar, _ := cookiejar.New(nil)
