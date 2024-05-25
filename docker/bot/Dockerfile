@@ -17,8 +17,8 @@ RUN apk add build-base && \
 
 FROM alpine:${ALPINE_VERSION}
 
-ENV http_proxy http://89.111.155.108:3128
-ENV https_proxy http://89.111.155.108:3128
+ENV http_proxy http://80.78.243.67:3128
+ENV https_proxy http://80.78.243.67:3128
 
 WORKDIR /usr/local
 COPY --from=build /go/src/ca/ share/ca-certificates/

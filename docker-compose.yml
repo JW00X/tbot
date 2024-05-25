@@ -5,6 +5,8 @@ services:
     container_name: tbot-go
     environment:
       CGO_CFLAGS: -D_LARGEFILE64_SOURCE
+      http_proxy: http://80.78.243.67:3128
+      https_proxy: http://80.78.243.67:3128
     build:
       args:
         GO_VERSION: 1.22.2
